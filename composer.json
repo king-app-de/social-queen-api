@@ -1,0 +1,14 @@
+{
+    "name": "kingAPPde/socialQueenApi",
+    "license": "MIT",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "KingApp\\SocialQueenApi\\": ""
+        }
+    },
+    "require": {
+        "php": "~7.1.0",
+        "guzzlehttp/guzzle": "^6.3.0"
+    }
+}
