@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace KingApp\SocialQueenApi\Client;
 
@@ -21,13 +21,13 @@ abstract class Base
         $this->client = $client;
     }
 
-    public function __call(string $name, ?array $parameters = [])
+    public function __call($name, $parameters = [])
     {
-        $parameters[1]['headers'] = $this->wrap($parameters[1]['headers'] ?? ['clientKey', 'deviceSecret', 'deviceKey', 'apiVersion']);
-        return $this->client->$name(...$parameters);
+        $parameters[1]['headers'] = $this->wrap(isset($parameters[1]['headers']) ? $parameters[1]['headers'] : ['clientKey', 'deviceSecret', 'deviceKey', 'apiVersion']);
+        return $this->client->$name($parameters[0], $parameters[1]);
     }
 
-    private function wrap(array $headers): array
+    private function wrap(array $headers)
     {
         $result = [];
         foreach ($headers as $header) {

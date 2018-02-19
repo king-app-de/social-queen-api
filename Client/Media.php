@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace KingApp\SocialQueenApi\Client;
 
@@ -7,44 +7,44 @@ class Media extends Base
     protected $id;
     protected $path;
 
-    public function list(): array
+    public function series()
     {
         return $this->get('posts');
     }
 
-    public function setId(string $id): self
+    public function setId($id)
     {
         $this->id = $id;
         return $this;
     }
 
-    public function setPath(string $filePath): self
+    public function setPath($filePath)
     {
         $this->path = $filePath;
         return $this;
     }
 
-    public function setRectangle(array $rectangle): self
+    public function setRectangle($rectangle)
     {
         foreach (['x', 'y', 'w', 'h'] as $name) {
             $this->data['rectangle'] = (int)$rectangle[$name];
         }
     }
 
-    public function setLabel(string $label): self
+    public function setLabel($label)
     {
         $this->data['label'] = $label;
         return $this;
     }
 
-    public function toArray(): array
+    public function toArray()
     {
         $params = $this->data;
         $params['uuid'] = $this->id ?: $this->create();
         return $params;
     }
 
-    public function create(): string
+    public function create()
     {
         return $this->id = $this->post('media', ['multipart' => [[
             'name' => 'fileUpload',

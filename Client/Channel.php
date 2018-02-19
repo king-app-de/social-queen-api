@@ -1,10 +1,10 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace KingApp\SocialQueenApi\Client;
 
 class Channel extends Base
 {
-    public function list(): array
+    public function series()
     {
         return $this->get('channel');
     }

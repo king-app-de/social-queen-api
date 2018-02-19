@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace KingApp\SocialQueenApi\Client;
 
@@ -7,31 +7,31 @@ class Post extends Base
     /** @var Media[] */
     protected $media = [];
 
-    public function setContent(string $content): self
+    public function setContent($content)
     {
         $this->data['content'] = $content;
         return $this;
     }
 
-    public function setTwitterContent(string $content): self
+    public function setTwitterContent($content)
     {
         $this->data['twitter']['content'] = $content;
         return $this;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle($title)
     {
         $this->data['title'] = $title;
         return $this;
     }
 
-    public function setExceedTwitterContent(bool $flag): self
+    public function setExceedTwitterContent($flag)
     {
         $this->data['twitter']['exceed'] = $flag;
         return $this;
     }
 
-    public function setInstagramCredentials(array $credentials): self
+    public function setInstagramCredentials($credentials)
     {
         foreach ($credentials as $uuid => $loginAndPassword) {
             $this->data['channel']['login'][$uuid] = [$loginAndPassword['login'], $loginAndPassword['password']];
@@ -39,7 +39,7 @@ class Post extends Base
         return $this;
     }
 
-    public function setChannels(array $channels): self
+    public function setChannels($channels)
     {
         $this->data['channel']['my'] = [];
         foreach ($channels as $channel) {
@@ -48,7 +48,7 @@ class Post extends Base
         return $this;
     }
 
-    public function setSharedChannels(array $channels): self
+    public function setSharedChannels($channels)
     {
         $this->data['channel']['shared'] = [];
         foreach ($channels as $channel) {
@@ -57,7 +57,7 @@ class Post extends Base
         return $this;
     }
 
-    public function setHashTags(array $hashTags): self
+    public function setHashTags($hashTags)
     {
         $this->data['hashTags'] = [];
         foreach ($hashTags as $hashTag) {
@@ -66,19 +66,19 @@ class Post extends Base
         return $this;
     }
 
-    public function setFacebookLocationId(string $id): self
+    public function setFacebookLocationId($id)
     {
         $this->data['location']['facebookId'] = $id;
         return $this;
     }
 
-    public function setPublishedAt(\DateTime $dateTime): self
+    public function setPublishedAt(\DateTime $dateTime)
     {
         $this->data['publishedAt'] = $dateTime->format(DATE_ATOM);
         return $this;
     }
 
-    public function addMediaFile(string $fileName, ?array $settings = []): self
+    public function addMediaFile($fileName, $settings = [])
     {
         $media = (new Media($this->client));
         $media->setPath($fileName);
@@ -90,7 +90,7 @@ class Post extends Base
         return $this;
     }
 
-    public function setMediaSetting(string $transformation, ?float $ratio = 0): self
+    public function setMediaSetting($transformation, $ratio = 0)
     {
         if (!in_array($transformation, ['c', 'o', 'f'])) throw new \Exception('No such transformation possible use c -auto cropp, f - fill, o -original');
         $this->data['gallery']['setting']['type'] = $transformation;
@@ -100,21 +100,21 @@ class Post extends Base
         return $this;
     }
 
-    public function send(): string
+    public function send()
     {
         if ($this->media && empty($this->data['gallery']['setting'])) throw new \Exception('There is no media settings');
         foreach ($this->media as $media) {
             $this->data['gallery'][spl_object_hash($media)] = $media->toArray();
         }
-        return $this->post('posts', ['form_params' =>  $this->data])->message;
+        return $this->post('posts', ['form_params' => $this->data])->message;
     }
 
-    public function create(): self
+    public function create()
     {
         return new self($this->client);
     }
 
-    public function list(): array
+    public function series()
     {
         return $this->get('posts');
     }
