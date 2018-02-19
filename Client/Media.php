@@ -49,6 +49,6 @@ class Media extends Base
         return $this->id = $this->post('media', ['multipart' => [[
             'name' => 'fileUpload',
             'contents' => fopen($this->path, 'r'),
-        ]]]);
+        ]]])->uuid;
     }
 }
