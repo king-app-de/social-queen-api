@@ -6,6 +6,7 @@ class Media extends Base
 {
     protected $id;
     protected $path;
+    protected $url;
 
     public function list(): array
     {
@@ -21,6 +22,12 @@ class Media extends Base
     public function setPath(string $filePath): self
     {
         $this->path = $filePath;
+        return $this;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
         return $this;
     }
 
@@ -47,6 +54,7 @@ class Media extends Base
     public function create(): string
     {
         return $this->id = $this->post('media', ['multipart' => [[
+            'url' => $this->url,
             'name' => 'fileUpload',
             'contents' => fopen($this->path, 'r'),
         ]]])->uuid;

@@ -106,7 +106,7 @@ class Post extends Base
         foreach ($this->media as $media) {
             $this->data['gallery'][spl_object_hash($media)] = $media->toArray();
         }
-        return $this->post('posts', ['form_params' =>  $this->data])->message;
+        return $this->post('posts', ['form_params' => $this->data])->message;
     }
 
     public function create(): self
@@ -117,5 +117,10 @@ class Post extends Base
     public function list(): array
     {
         return $this->get('posts');
+    }
+
+    public function remove($id): array
+    {
+        return $this->delete("posts/$id");
     }
 }
