@@ -2,7 +2,7 @@
 
 namespace KingApp\SocialQueenApi\Client;
 
-class Post extends Base
+class News extends Base
 {
     /** @var Media[] */
     protected $media = [];
@@ -13,55 +13,17 @@ class Post extends Base
         return $this;
     }
 
-    public function setTwitterContent(string $content): self
-    {
-        $this->data['twitter']['content'] = $content;
-        return $this;
-    }
-
     public function setTitle(string $title): self
     {
         $this->data['title'] = $title;
         return $this;
     }
 
-    public function setExceedTwitterContent(bool $flag): self
+    public function setKeyWords(array $hashTags): self
     {
-        $this->data['twitter']['exceed'] = $flag;
-        return $this;
-    }
-
-    public function setInstagramCredentials(array $credentials): self
-    {
-        foreach ($credentials as $uuid => $loginAndPassword) {
-            $this->data['channel']['login'][$uuid] = [$loginAndPassword['login'], $loginAndPassword['password']];
-        }
-        return $this;
-    }
-
-    public function setChannels(array $channels): self
-    {
-        $this->data['channel']['my'] = [];
-        foreach ($channels as $channel) {
-            $this->data['channel']['my'][] = (string)$channel;
-        }
-        return $this;
-    }
-
-    public function setSharedChannels(array $channels): self
-    {
-        $this->data['channel']['shared'] = [];
-        foreach ($channels as $channel) {
-            $this->data['channel']['shared'][] = (string)$channel;
-        }
-        return $this;
-    }
-
-    public function setHashTags(array $hashTags): self
-    {
-        $this->data['hashTags'] = [];
+        $this->data['keywords'] = [];
         foreach ($hashTags as $hashTag) {
-            $this->data['hashTags'][] = preg_replace('/[#\s\,]+/', '', $hashTag);
+            $this->data['keywords'][] = preg_replace('/[#\s\,]+/', '', $hashTag);
         }
         return $this;
     }
@@ -106,16 +68,11 @@ class Post extends Base
         foreach ($this->media as $media) {
             $this->data['gallery'][spl_object_hash($media)] = $media->toArray();
         }
-        return $this->post('posts', ['form_params' => $this->data])->message;
+        return $this->post('new', ['form_params' => $this->data])->message;
     }
 
     public function create(): self
     {
         return new self($this->client);
-    }
-
-    public function list(): array
-    {
-        return $this->get('posts');
     }
 }

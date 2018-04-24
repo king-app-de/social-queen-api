@@ -40,6 +40,11 @@ class Client
         return new Client\Post($this);
     }
 
+    public function news(): Client\News
+    {
+        return new Client\News($this);
+    }
+
     public function __call(string $name, ?array $parameters = [])
     {
         return json_decode($this->guzzle->$name(...$parameters)->getBody()->getContents());
