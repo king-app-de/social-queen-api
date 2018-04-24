@@ -64,4 +64,9 @@ class News extends Base
     {
         return new self($this->client);
     }
+
+    public function remove($id): array
+    {
+        return $this->delete("/news/$id");
+    }
 }
