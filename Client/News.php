@@ -51,13 +51,13 @@ class News extends Base
         return $this;
     }
 
-    public function send(): string
+    public function send(): \stdClass
     {
         if ($this->media && empty($this->data['gallery']['setting'])) throw new \Exception('There is no media settings');
         foreach ($this->media as $media) {
             $this->data['gallery'][spl_object_hash($media)] = $media->toArray();
         }
-        return $this->post('/section/1/new', ['form_params' => $this->data]);
+        return $this->post('/api/section/1/new', ['form_params' => $this->data]);
     }
 
     public function create(): self
@@ -65,8 +65,8 @@ class News extends Base
         return new self($this->client);
     }
 
-    public function remove($id): array
+    public function remove($id): string
     {
-        return $this->delete("/news/$id");
+        return $this->delete("/api/page/{$id}");
     }
 }
