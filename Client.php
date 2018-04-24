@@ -26,6 +26,7 @@ class Client
 
     public function setBaseUrl(string $url): self
     {
+        $this->guzzle = new \GuzzleHttp\Client(['base_uri' => $url]);
         $this->url = $url;
         return $this;
     }

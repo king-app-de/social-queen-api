@@ -25,18 +25,7 @@ class News extends Base
         foreach ($hashTags as $hashTag) {
             $this->data['keywords'][] = preg_replace('/[#\s\,]+/', '', $hashTag);
         }
-        return $this;
-    }
-
-    public function setFacebookLocationId(string $id): self
-    {
-        $this->data['location']['facebookId'] = $id;
-        return $this;
-    }
-
-    public function setPublishedAt(\DateTime $dateTime): self
-    {
-        $this->data['publishedAt'] = $dateTime->format(DATE_ATOM);
+        $this->data['keywords'] = implode(",", $this->data['keywords']);
         return $this;
     }
 
@@ -68,7 +57,7 @@ class News extends Base
         foreach ($this->media as $media) {
             $this->data['gallery'][spl_object_hash($media)] = $media->toArray();
         }
-        return $this->post('new', ['form_params' => $this->data])->message;
+        return $this->post('/section/1/new', ['form_params' => $this->data])->hardLink;
     }
 
     public function create(): self
