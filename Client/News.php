@@ -67,7 +67,6 @@ class News extends Base
 
     public function remove($id): array
     {
-        $temp = $this->delete("/news/$id");
         return $this->delete("/news/$id");
     }
 }
