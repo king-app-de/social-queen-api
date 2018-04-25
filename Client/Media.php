@@ -53,7 +53,7 @@ class Media extends Base
 
     public function create(): string
     {
-        return $this->id = $this->post('/api/media', ['multipart' => [[
+        return $this->id = $this->post('media', ['multipart' => [[
             'url' => $this->url,
             'name' => 'fileUpload',
             'contents' => fopen($this->path, 'r'),

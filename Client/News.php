@@ -57,7 +57,7 @@ class News extends Base
         foreach ($this->media as $media) {
             $this->data['gallery'][spl_object_hash($media)] = $media->toArray();
         }
-        return $this->post('/api/section/1/new', ['form_params' => $this->data]);
+        return $this->post('section/1/new', ['form_params' => $this->data]);
     }
 
     public function create(): self
@@ -67,6 +67,6 @@ class News extends Base
 
     public function remove($id): string
     {
-        return $this->delete("/api/page/{$id}");
+        return $this->delete("page/{$id}");
     }
 }
