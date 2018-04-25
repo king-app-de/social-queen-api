@@ -6,11 +6,11 @@ class Client
 {
     protected $guzzle;
     protected $credentials;
-    protected $url = 'https://socialqueen.com/api/mobile/';
+    protected $baseUrl = 'https://socialqueen.com/api/mobile/';
 
     public function __construct(?\GuzzleHttp\Client $guzzle = null)
     {
-        $this->guzzle = $guzzle ?: new \GuzzleHttp\Client(['base_uri' => $this->url]);
+        $this->guzzle = $guzzle ?: new \GuzzleHttp\Client(['base_uri' => $this->baseUrl]);
     }
 
     public function __get(string $name): string
@@ -27,7 +27,7 @@ class Client
     public function setBaseUrl(string $url): self
     {
         $this->guzzle = new \GuzzleHttp\Client(['base_uri' => $url]);
-        $this->url = $url;
+        $this->baseUrl = $url;
         return $this;
     }
 
