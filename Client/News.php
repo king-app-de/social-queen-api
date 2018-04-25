@@ -7,6 +7,11 @@ class News extends Base
     /** @var Media[] */
     protected $media = [];
 
+    public function getMedia(): array
+    {
+        return $this->media;
+    }
+
     public function setContent(string $content): self
     {
         $this->data['content'] = $content;
@@ -29,8 +34,9 @@ class News extends Base
         return $this;
     }
 
-    public function addMediaFile(string $fileName, ?array $settings = []): self
+    public function addMediaFile(string $fileName, ?array $settings = []): array
     {
+        $response = [];
         $media = (new Media($this->client));
         $media->setPath($fileName);
         foreach ($settings as $name => $value) {
@@ -38,7 +44,14 @@ class News extends Base
             $media->$method($value);
         }
         $this->media[] = $media;
-        return $this;
+
+        if ($this->media && empty($this->data['gallery']['setting'])) throw new \Exception('There is no media settings');
+        foreach ($this->media as $media) {
+            $params = $media->toArray();
+            $this->data['gallery'][spl_object_hash($media)] = $params;
+            $response = $params;
+        }
+        return $response;
     }
 
     public function setMediaSetting(string $transformation, ?float $ratio = 0): self
@@ -53,10 +66,6 @@ class News extends Base
 
     public function send(): \stdClass
     {
-        if ($this->media && empty($this->data['gallery']['setting'])) throw new \Exception('There is no media settings');
-        foreach ($this->media as $media) {
-            $this->data['gallery'][spl_object_hash($media)] = $media->toArray();
-        }
         return $this->post('section/1/new', ['form_params' => $this->data]);
     }
 
