@@ -47,16 +47,18 @@ class Media extends Base
     public function toArray(): array
     {
         $params = $this->data;
-        $params['uuid'] = $this->id ?: $this->create();
+        $response = $this->create();
+        $params['uuid'] = $this->id ?: $response->uuid;
+        $params['hardLink'] = $this->url ?: $response->hardLink;
         return $params;
     }
 
-    public function create(): string
+    public function create(): \stdClass
     {
-        return $this->id = $this->post('media', ['multipart' => [[
+        return $this->post('media', ['multipart' => [[
             'url' => $this->url,
             'name' => 'fileUpload',
             'contents' => fopen($this->path, 'r'),
-        ]]])->uuid;
+        ]]]);
     }
 }

@@ -4,13 +4,15 @@ namespace KingApp\SocialQueenApi;
 
 class Client
 {
+    const BASE_URL = 'https://socialqueen.com/api/mobile/';
+
     protected $guzzle;
     protected $credentials;
-    protected $url = 'https://socialqueen.com/api/mobile/';
+    protected $baseUrl = self::BASE_URL;
 
     public function __construct(?\GuzzleHttp\Client $guzzle = null)
     {
-        $this->guzzle = $guzzle ?: new \GuzzleHttp\Client(['base_uri' => $this->url]);
+        $this->guzzle = $guzzle ?: new \GuzzleHttp\Client(['base_uri' => $this->baseUrl]);
     }
 
     public function __get(string $name): string
@@ -24,10 +26,15 @@ class Client
         return $this;
     }
 
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
+    }
+
     public function setBaseUrl(string $url): self
     {
         $this->guzzle = new \GuzzleHttp\Client(['base_uri' => $url]);
-        $this->url = $url;
+        $this->baseUrl = $url;
         return $this;
     }
 
