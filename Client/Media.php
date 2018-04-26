@@ -56,7 +56,6 @@ class Media extends Base
     public function create(): \stdClass
     {
         return $this->post('media', ['multipart' => [[
-            'url' => $this->url,
             'name' => 'fileUpload',
             'contents' => fopen($this->path, 'r'),
         ]]]);
