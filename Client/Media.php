@@ -48,8 +48,8 @@ class Media extends Base
     {
         $params = $this->data;
         $response = $this->create();
-        $params['uuid'] = $this->id ?: $response->uuid;
-        $params['hardLink'] = $this->url ?: $response->hardLink;
+        $params['uuid'] = $response->uuid;
+        $params['hardLink'] = $response->hardLink;
         return $params;
     }
 
