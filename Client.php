@@ -12,7 +12,7 @@ class Client
 
     public function __construct(?\GuzzleHttp\Client $guzzle = null)
     {
-        $this->guzzle = $guzzle ?: new \GuzzleHttp\Client(['base_uri' => $this->baseUrl]);
+        $guzzle ? $this->guzzle = $guzzle : $this->setBaseUrl(self::BASE_URL);
     }
 
     public function __get(string $name): string
