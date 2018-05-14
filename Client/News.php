@@ -26,18 +26,6 @@ class News extends WithMedia
         return $this;
     }
 
-    public function addMediaFile(string $fileName, ?array $settings = []): array
-    {
-        parent::addMediaFile($fileName, $settings);
-        if ($this->media && empty($this->data['gallery']['setting'])) throw new \Exception('There is no media settings');
-        foreach ($this->media as $media) {
-            $params = $media->toArray();
-            $this->data['gallery'][spl_object_hash($media)] = $params;
-            $response = $params;
-        }
-        return $response;
-    }
-
     public function send(): \stdClass
     {
         $this->sendMedia();

@@ -4,19 +4,14 @@ namespace KingApp\SocialQueenApi\Client;
 
 class Media extends Base
 {
-    protected $id;
     protected $path;
     protected $url;
+    protected $uuid;
+    protected $hardLink;
 
     public function list(): array
     {
         return $this->get('posts');
-    }
-
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-        return $this;
     }
 
     public function setPath(string $filePath): self
@@ -44,20 +39,29 @@ class Media extends Base
         return $this;
     }
 
+    public function getHardLink(): string
+    {
+        return $this->hardLink;
+    }
+
     public function toArray(): array
     {
         $params = $this->data;
-        $response = $this->create();
-        $params['uuid'] = $response->uuid;
-        $params['hardLink'] = $response->hardLink;
+        $params['uuid'] = $this->uuid;
+        $params['hardLink'] = $this->hardLink;
         return $params;
     }
 
-    public function create(): \stdClass
+    public function create(): self
     {
-        return $this->post('media', ['multipart' => [[
-            'name' => 'fileUpload',
-            'contents' => fopen($this->path, 'r'),
-        ]]]);
+        if (!$this->uuid) {
+            $result = $this->post('media', ['multipart' => [[
+                'name' => 'fileUpload',
+                'contents' => fopen($this->path, 'r'),
+            ]]]);
+            $this->uuid = $result->uuid;
+            $this->hardLink = $result->hardLink;
+        }
+        return $this;
     }
 }

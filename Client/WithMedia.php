@@ -7,6 +7,7 @@ abstract class WithMedia extends Base
     /** @var Media[] */
     protected $media = [];
 
+    /** @return  Media[] */
     public function getMedia(): array
     {
         return $this->media;
@@ -24,6 +25,18 @@ abstract class WithMedia extends Base
         return $this;
     }
 
+    public function uploadMediaFile(string $fileName, ?array $settings = []): Media
+    {
+        $media = (new Media($this->client));
+        $media->setPath($fileName);
+        foreach ($settings as $name => $value) {
+            $method = 'set' . ucfirst($name);
+            $media->$method($value);
+        }
+        $this->media[] = $media;
+        return $media->create();
+    }
+
     public function setMediaSetting(string $transformation, ?float $ratio = 0): self
     {
         if (!in_array($transformation, ['c', 'o', 'f'])) throw new \Exception('No such transformation possible use c -auto cropp, f - fill, o -original');
@@ -38,7 +51,7 @@ abstract class WithMedia extends Base
     {
         if ($this->media && empty($this->data['gallery']['setting'])) throw new \Exception('There is no media settings');
         foreach ($this->media as $media) {
-            $this->data['gallery'][spl_object_hash($media)] = $media->toArray();
+            $this->data['gallery'][spl_object_hash($media)] = $media->create()->toArray();
         }
     }
 }
