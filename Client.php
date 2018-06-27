@@ -33,6 +33,7 @@ class Client
 
     public function setBaseUrl(string $url): self
     {
+        if (strrpos($url, '/') !== 0) $url .= '/';
         $this->guzzle = new \GuzzleHttp\Client(['base_uri' => $url]);
         $this->baseUrl = $url;
         return $this;
