@@ -41,4 +41,9 @@ class News extends WithMedia
     {
         return $this->delete("news/{$id}");
     }
+    
+    public function getSections(): array
+    {
+        return $this->get('new/search');
+    }
 }
