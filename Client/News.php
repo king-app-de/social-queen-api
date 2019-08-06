@@ -44,6 +44,6 @@ class News extends WithMedia
     
     public function getSections(): array
     {
-        return $this->get('new/search');
+        return $this->get('news/search');
     }
 }
