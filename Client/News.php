@@ -25,6 +25,12 @@ class News extends WithMedia
         $this->data['keywords'] = implode(",", $this->data['keywords']);
         return $this;
     }
+    
+    public function setSectionId(string $sectionId): self
+    {
+        $this->data['section'] = $sectionId;
+        return $this;
+    }
 
     public function send(): \stdClass
     {
