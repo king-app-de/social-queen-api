@@ -78,7 +78,7 @@ class Post extends WithMedia
     public function send(): string
     {
         $this->sendMedia();
-        return $this->post('posts', ['form_params' => $this->data])->message;
+        return $this->post('posts', ['form_params' => $this->data]);
     }
 
     public function create(): self
