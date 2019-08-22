@@ -75,10 +75,10 @@ class Post extends WithMedia
         return $this;
     }
 
-    public function send(): string
+    public function send(): \stdClass
     {
         $this->sendMedia();
-        return $this->post('posts', ['form_params' => $this->data])->message;
+        return $this->post('posts', ['form_params' => $this->data]);
     }
 
     public function create(): self
