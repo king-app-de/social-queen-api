@@ -32,6 +32,12 @@ class News extends WithMedia
         return $this;
     }
 
+    public function setLocales(string $locales): self
+    {
+        $this->data['locales'] = $locales;
+        return $this;
+    }
+
     public function send(): \stdClass
     {
         $this->sendMedia();
