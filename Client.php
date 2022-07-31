@@ -40,6 +40,11 @@ class Client
         return $this;
     }
 
+    public function user(): Client\User
+    {
+        return new Client\User($this);
+    }
+    
     public function channels(): Client\Channel
     {
         return new Client\Channel($this);

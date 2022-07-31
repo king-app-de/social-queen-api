@@ -25,6 +25,18 @@ class News extends WithMedia
         $this->data['keywords'] = implode(",", $this->data['keywords']);
         return $this;
     }
+    
+    public function setSectionId(string $sectionId): self
+    {
+        $this->data['section'] = $sectionId;
+        return $this;
+    }
+
+    public function setLocales(string $locales): self
+    {
+        $this->data['locales'] = $locales;
+        return $this;
+    }
 
     public function send(): \stdClass
     {
@@ -40,5 +52,10 @@ class News extends WithMedia
     public function remove($id): string
     {
         return $this->delete("news/{$id}");
+    }
+    
+    public function getSections(): array
+    {
+        return $this->get('news/search');
     }
 }
